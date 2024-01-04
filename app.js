@@ -36,9 +36,10 @@ async function getWeatherData(city) {
 function displayWeatherInfo(data) {
   const {
     name: city,  // const city = data.name
-    main: { temp, humidity },
+    main: { temp, humidity, pressure },
     weather: [{ description, id }],
   } = data; // destructuting obiektów i tablicy
+  console.log(data)
 
   card.textContent = '';
   card.style.removeProperty('display');
@@ -46,24 +47,28 @@ function displayWeatherInfo(data) {
   const cityDisplay = document.createElement('h1');
   const tempDisplay = document.createElement('p');
   const humidityDisplay = document.createElement('p');
+  const pressureDisplay = document.createElement('p');
   const descDisplay = document.createElement('p');
   const weatherEmoji = document.createElement('p');
 
   cityDisplay.textContent = city;
   tempDisplay.textContent = `${(temp - 273.15).toFixed(1)}°C`;
   humidityDisplay.textContent = `Humidity: ${humidity}%`;
-  descDisplay.textContent = description;
+  pressureDisplay.textContent = `Pressure: ${pressure} hPa`;
+  descDisplay.textContent = description.replace(/^\w/, i => i.toUpperCase());
   weatherEmoji.textContent = getWeatherEmoji(id);
 
   cityDisplay.classList.add('city');
   tempDisplay.classList.add('temp');
   humidityDisplay.classList.add('p');
+  pressureDisplay.classList.add('p');
   descDisplay.classList.add('p');
   weatherEmoji.classList.add('weatherEmoji');
 
   card.appendChild(cityDisplay);
   card.appendChild(tempDisplay);
   card.appendChild(humidityDisplay);
+  card.appendChild(pressureDisplay);
   card.appendChild(descDisplay);
   card.appendChild(weatherEmoji);
   

@@ -1,5 +1,5 @@
 import './Card.css'
-import { getWeatherEmoji } from './helpers/weather.js'
+import { getWeatherEmoji } from '../helpers/weather.js'
 
 const Card = ({ city, temp, humidity, pressure, description, weatherId }) => {
   return (

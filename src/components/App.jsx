@@ -3,7 +3,7 @@ import "./App.css";
 import Card from "./Card.jsx";
 import ErrorCard from "./ErrorCard.jsx";
 import Form from "./Form.jsx";
-import { getWeatherData } from "./api/weather.js";
+import { getWeatherData } from "../api/weather.js";
 
 function App() {
   const [weatherData, setWeatherData] = useState();

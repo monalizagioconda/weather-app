@@ -2,7 +2,7 @@ import { useState } from 'react'
 import './Form.css'
 
 const Form = ({ onCity }) => {
-    const [city, setCity] = useState()
+    const [city, setCity] = useState('')
 
     const handleSubmit = event => {
         event.preventDefault()

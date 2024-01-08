@@ -1,9 +1,9 @@
 import './ErrorCard.css'
 
-const ErrorCard = () => {
+const ErrorCard = ({ children }) => {
   return (
-    <div className="card">
-      <p className="error">Please enter a city</p>
+    <div className="error-card">
+      <p className="error">{children}</p>
     </div>
   );
 };

@@ -7,16 +7,20 @@ import { getWeatherData } from "../api/weather.js";
 
 function App() {
   const [weatherData, setWeatherData] = useState();
-  const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState();
 
   const handleCity = async (city) => {
     const isCityEmpty = city.trim() === ''
 
-    setShowError(isCityEmpty)
+    setErrorMessage(isCityEmpty ? 'Please enter a city' : undefined)
 
-    const data = isCityEmpty ? undefined : await getWeatherData(city);
+    try {
+      const data = isCityEmpty ? undefined : await getWeatherData(city);
 
-    setWeatherData(data);
+      setWeatherData(data);
+    } catch (err) {
+      setErrorMessage(err.message)
+    }
   };
 
   return (
@@ -32,7 +36,7 @@ function App() {
           weatherId={weatherData.weather[0].id}
         />
       ) : null}
-      {showError ? <ErrorCard /> : null}
+      {errorMessage ? <ErrorCard>{errorMessage}</ErrorCard> : null}
     </>
   );
 }

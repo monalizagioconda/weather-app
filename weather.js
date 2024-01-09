@@ -1,28 +1,33 @@
-// weather app
-const weatherForm = document.querySelector(".weatherForm");
-const cityInput = document.querySelector(".cityInput");
-const card = document.querySelector(".card");
+import { setPosition } from './maps.js'
+
 const apiKey = "cf60c89815b29a12e58c6f2da5c40ec0";
 
-weatherForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const city = cityInput.value;
+const weather = document.querySelector(".weather");
+const form = weather.querySelector("form");
+const cityInput = form.querySelector("input");
+const card = weather.querySelector(".card");
 
-  if (city) {
-    try {
-      const weatherData = await getWeatherData(city);
-      displayWeatherInfo(weatherData);
-    }
-    catch (error) {
-      console.error(error);
-      displayError(error);
-    }
-  } else {
-    displayError("Please enter a city");
-  }
-});
+export default function initWeather() {
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const city = cityInput.value;
 
-async function getWeatherData(city) {
+    if (city) {
+      try {
+        const weatherData = await getWeatherByCity(city);
+        displayWeatherInfo(weatherData);
+        setPosition({ lat: weatherData.coord.lat, lng: weatherData.coord.lon });
+      }
+      catch (error) {
+        displayError(error);
+      }
+    } else {
+      displayError("Please enter a city");
+    }
+  });
+}
+
+async function getWeatherByCity(city) {
   const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
   const response = await fetch(apiUrl);
 
@@ -33,13 +38,23 @@ async function getWeatherData(city) {
   return await response.json();
 }
 
-function displayWeatherInfo(data) {
+export async function getWeatherByLatLng({ lat, lng }) {
+  const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${apiKey}`;
+  const response = await fetch(apiUrl);
+
+  if (!response.ok) {
+    throw new Error("Could not fetch weather data");
+  }
+
+  return await response.json();
+}
+
+export function displayWeatherInfo(data) {
   const {
     name: city,  // const city = data.name
     main: { temp, humidity, pressure },
     weather: [{ description, id }],
   } = data; // destructuting obiektów i tablicy
-  console.log(data)
 
   card.textContent = '';
   card.style.removeProperty('display');
@@ -59,11 +74,11 @@ function displayWeatherInfo(data) {
   weatherEmoji.textContent = getWeatherEmoji(id);
 
   cityDisplay.classList.add('city');
-  tempDisplay.classList.add('temp');
+  tempDisplay.classList.add('temperature');
   humidityDisplay.classList.add('p');
   pressureDisplay.classList.add('p');
   descDisplay.classList.add('p');
-  weatherEmoji.classList.add('weatherEmoji');
+  weatherEmoji.classList.add('emoji');
 
   card.appendChild(cityDisplay);
   card.appendChild(tempDisplay);
@@ -71,7 +86,6 @@ function displayWeatherInfo(data) {
   card.appendChild(pressureDisplay);
   card.appendChild(descDisplay);
   card.appendChild(weatherEmoji);
-  
 }
 
 function getWeatherEmoji(weatherId) {
@@ -95,7 +109,7 @@ function getWeatherEmoji(weatherId) {
     }
 }
 
-function displayError(message) {
+export function displayError(message) {
   const errorDisplay = document.createElement("p");
   errorDisplay.textContent = message;
   errorDisplay.classList.add("error");
@@ -103,4 +117,8 @@ function displayError(message) {
   card.textContent = "";
   card.style.display = "flex";
   card.appendChild(errorDisplay);
+}
+
+export function clearInput() {
+  cityInput.value = '';
 }

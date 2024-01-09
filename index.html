@@ -5,21 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
     <link rel="stylesheet" href="styles.css" />
-    <script src="app.js" defer></script>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script type="module" src="./main.js" defer></script>
 </head>
 <body>
-    <form class="weatherForm">
-        <input type="text" class="cityInput" placeholder="Enter City">
-        <button type="submit">Get weather</button>
-    </form>
+    <main>
+        <div class="weather">
+            <form>
+                <input type="text" placeholder="Enter City">
+                <button type="submit">Get weather</button>
+            </form>
+        
+            <div class="card">
+                <p class="info">Please enter a city or click on the map to load weather data.</p>
+            </div>
+        </div>
+        <div id="map"></div>
+    </main>
 
-    <div class="card" style="display: none;">
-        <!-- <h1 class="city">Cracow</h1>
-        <p class="temp">5°C</p>
-        <p class="humidity">Humidity: 75%</p>
-        <p class="description">Clear Skies</p>
-        <p class="weatherEmoji">☀️</p>
-        <p class="error">Please enter a city</p> -->
-    </div>
+    <!-- prettier-ignore -->
+    <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
+        ({key: "AIzaSyDakI0JXtaYcNOVOSaodQO8a1gKRdSxcKM", v: "weekly"});</script>
 </body>
 </html>

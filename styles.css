@@ -1,30 +1,43 @@
-body {
+* {
     box-sizing: border-box;
+}
+
+body {
     font-family: Arial, Helvetica, sans-serif;
     background-color: rgb(222, 222, 222);
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
-.weatherForm {
-    margin: 30px;
+main {
+    display: flex;
+    gap: 1em;
+    padding: 1em;
+    height: 100vh;
+}
+
+.weather {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    width: 20em;
+}
+
+.weather form {
     display: flex;
     gap: 0.5rem;
     flex-wrap: nowrap;
 }
 
-.cityInput {
-    padding: 10px;
+.weather form input {
+    padding: 0.5em;
     font-size: 1rem;
     border: 1px solid rgb(172, 172, 172);
     border-radius: 6px;
-    width: 300px;
 }
-button[type="submit"] {
-    padding: 10px;
-    flex-shrink: 0;
+
+.weather form button[type="submit"] {
+    padding: 0.5em;
+    /* flex-shrink: 0; */
     font-size: 1rem;
     font-weight: bold;
     border: none;
@@ -33,39 +46,53 @@ button[type="submit"] {
     color: white;
     cursor: pointer;
 }
-button[type="submit"]:hover {
+
+.weather form button[type="submit"]:hover {
     background-color: rgba(56, 139, 56, 0.7);
 }
 
-.card {
-    background: linear-gradient(180deg, rgb(186, 204, 255), rgb(255, 218, 115));
-    padding: 40px;
+.weather .card {
+    background: linear-gradient(180deg, #b6c9e6, rgb(255, 255, 255));
+    padding: 2.5em;
     border-radius: 6px;
-    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.4);
-    min-width: 200px;
+    /* box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.4); */
     display: flex;
     flex-direction: column;
     align-items: center;
-
+    justify-content: center;
+    flex: 1;
 }
-h1 {
+
+.weather .card .info {
+    color: rgb(88, 88, 88);
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.weather .card h1 {
     font-size: 2rem;
     margin-top: 0;
     margin-bottom: 10px;
+    text-align: center;
 }
-p {
+.weather .card p {
     font-size: 1.2rem;
     margin: 10px 0;
 }
-.city,
-.temp {
+
+.weather .card .temperature {
     font-size: 3rem;
 }
-.weatherEmoji {
+.weather .card .emoji {
     font-size: 4rem;
 }
-.error {
+.weather .card .error {
     font-size: 1.5rem;
     font-weight: bold;
     color: rgb(75, 75, 75);
+}
+
+#map {
+    flex: 1;
 }

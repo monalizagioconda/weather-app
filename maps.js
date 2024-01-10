@@ -21,9 +21,18 @@ export default async function initMap() {
     mapId: "weather-map",
   });
 
+  const elevator = new google.maps.ElevationService();
+  const infoWindow = new google.maps.InfoWindow({});
+
+  infoWindow.open(map);
+
   marker = new AdvancedMarkerElement({ map: map, position: position });
 
-  map.addListener("click", async ({ latLng: { lat, lng } }) => {
+  map.addListener("click", async ({ latLng }) => {
+    displayLocationElevation(latLng, elevator, infoWindow);
+
+    const { lat, lng } = latLng;
+
     const newPosition = { lat: lat(), lng: lng() };
 
     clearInput();
@@ -41,4 +50,25 @@ export default async function initMap() {
 export function setPosition(position) {
   map.setCenter(position);
   marker.position = position;
+}
+
+async function displayLocationElevation(location, elevator, infoWindow) {
+  try {
+    // Initiate the location request
+    const { results } = await elevator.getElevationForLocations({
+      locations: [location],
+    });
+
+    infoWindow.setPosition(location);
+    // Retrieve the first result
+    const result = results[0];
+
+    infoWindow.setContent(
+      result
+        ? `The elevation at this point <br>is ${result.elevation.toFixed(2)} meters.`
+        : "No results found"
+    );
+  } catch (e) {
+    infoWindow.setContent("Elevation service failed due to: " + e);
+  }
 }
